@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d19">
+<title>PAUNGANOMALI — IP & Proxy Dashboard</title>
+<style>
+:root{--bg:#080d19;--panel:#101829;--panel2:#0c1423;--line:#253149;--muted:#91a0b8;--text:#edf4ff;--green:#4ade80;--blue:#60a5fa;--red:#fb7185}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top right,#132a47 0,transparent 40%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1120px;margin:auto;padding:24px 16px 50px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#22c55e,#0ea5e9);display:grid;place-items:center;color:#06111c;font-weight:900;font-size:20px;box-shadow:0 8px 28px #0ea5e933}.brand h1{font-size:19px;letter-spacing:1.5px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.pill{border:1px solid #22543d;color:var(--green);border-radius:99px;padding:7px 11px;font-size:12px;white-space:nowrap}
+.hero{margin-bottom:22px}.hero h2{font-size:clamp(25px,5vw,38px);line-height:1.1;margin:0 0 10px}.hero p{color:var(--muted);margin:0;max-width:680px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:linear-gradient(150deg,#111c30,#0d1423);border:1px solid var(--line);border-radius:18px;padding:20px;min-width:0;box-shadow:0 12px 35px #0002}.cardhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.card h3{margin:0;font-size:17px}.eyebrow{font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}.status{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:5px 9px}.bigip{font-size:clamp(23px,4vw,32px);font-weight:750;letter-spacing:.4px;overflow-wrap:anywhere;margin:10px 0}.muted{color:var(--muted)}.details{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.detail{background:var(--panel2);border:1px solid #202b40;border-radius:12px;padding:11px;min-width:0}.detail span{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}.detail strong{display:block;overflow-wrap:anywhere;font-size:13px}.btn{border:0;border-radius:11px;background:linear-gradient(135deg,#4ade80,#22d3ee);color:#07111d;font-weight:800;padding:11px 15px;cursor:pointer;font-size:14px}.btn:disabled{opacity:.6;cursor:wait}.btn.secondary{background:#17243a;border:1px solid #30415d;color:var(--text)}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.field{margin:12px 0}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}.field input{width:100%;padding:12px;background:#080f1d;color:var(--text);border:1px solid #30415d;border-radius:10px;outline:none}.field input:focus{border-color:var(--blue)}.notice{background:#182237;border:1px solid #35425b;color:#c8d5e9;padding:11px 12px;border-radius:11px;font-size:12px;margin-top:12px}.wide{grid-column:1/-1}.result{margin-top:13px;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--muted);font-size:13px}.footer{text-align:center;color:#72819a;font-size:12px;margin-top:25px}.hidden{display:none}
+@media(max-width:700px){.wrap{padding:18px 12px 35px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.card{padding:16px}.top{align-items:flex-start}.pill{font-size:11px}.details{gap:8px}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div class="brand"><div class="logo">P</div><div><h1>PAUNGANOMALI</h1><p>IP CHECKER · PROXY DASHBOARD</p></div></div><div class="pill">● LOCAL DASHBOARD</div></header>
+<section class="hero"><h2>Network Control Center</h2><p>Periksa IP publik jaringanmu dan uji koneksi proxy DataImpulse melalui backend privat. Kredensial proxy tidak disimpan di browser.</p></section>
+<div class="grid">
+<section class="card"><div class="cardhead"><div><div class="eyebrow">IP CHECKER</div><h3>Jaringan saat ini</h3></div><span class="status" id="ipStatus">Belum dicek</span></div>
+<div class="bigip" id="ipAddress">—</div><div class="muted" id="ipMessage">Tekan tombol untuk memeriksa IP publik jaringan yang sedang kamu gunakan.</div>
+<div class="details"><div class="detail"><span>Negara</span><strong id="ipCountry">—</strong></div><div class="detail"><span>Kota / Wilayah</span><strong id="ipRegion">—</strong></div><div class="detail"><span>Penyedia / ISP</span><strong id="ipIsp">—</strong></div><div class="detail"><span>Timezone</span><strong id="ipTimezone">—</strong></div></div>
+<div class="actions"><button class="btn" id="checkIp">Periksa IP Saya</button><button class="btn secondary" id="copyIp">Salin IP</button></div><div class="notice">Pemeriksaan meminta informasi IP publik dari layanan pihak ketiga. Jangan gunakan untuk melacak orang lain tanpa izin.</div>
+</section>
+<section class="card"><div class="cardhead"><div><div class="eyebrow">DATAIMPULSE</div><h3>Uji koneksi proxy</h3></div><span class="status" id="proxyStatus">Belum diuji</span></div>
+<p class="muted">Backend akan menggunakan konfigurasi proxy yang disimpan sebagai environment variables di hosting.</p>
+<div class="details"><div class="detail"><span>Host</span><strong>gw.dataimpulse.com</strong></div><div class="detail"><span>Port</span><strong>823</strong></div><div class="detail"><span>Metode</span><strong>HTTP proxy</strong></div><div class="detail"><span>Kredensial</span><strong>Backend only</strong></div></div>
+<div class="actions"><button class="btn" id="testProxy">Tes Koneksi Proxy</button><a class="btn secondary" href="https://docs.dataimpulse.com/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center">Dokumentasi resmi</a></div>
+<div id="proxyResult" class="result">Status hasil tes akan tampil di sini.</div><div class="notice">Jangan pernah memasukkan token/password ke HTML publik atau mengirimkannya lewat chat. Atur <code>DATAIMPULSE_LOGIN</code> dan <code>DATAIMPULSE_PASSWORD</code> di Environment Variables Vercel.</div>
+</section>
+<section class="card wide"><div class="cardhead"><div><div class="eyebrow">STATUS SISTEM</div><h3>Ringkasan</h3></div><span class="status">Privasi dasar</span></div>
+<div class="details"><div class="detail"><span>IP Checker</span><strong id="sumIp">Siap digunakan</strong></div><div class="detail"><span>Integrasi DataImpulse</span><strong id="sumProxy">Perlu konfigurasi hosting</strong></div><div class="detail"><span>Frontend</span><strong>Responsif · HTML/CSS/JS</strong></div><div class="detail"><span>Deployment</span><strong>Vercel disarankan</strong></div></div>
+<p class="muted" style="font-size:13px;margin-bottom:0">Catatan: dashboard ini tidak membaca saldo atau statistik akun DataImpulse. Tes proxy hanya memeriksa apakah proxy yang dikonfigurasi dapat mengembalikan informasi IP.</p>
+</section></div>
+<footer class="footer">PAUNGANOMALI · Gunakan hanya pada jaringan dan akun yang kamu berwenang mengelolanya.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let currentIp='';
+$('checkIp').addEventListener('click', async()=>{
+ const b=$('checkIp'); b.disabled=true; b.textContent='Memeriksa…'; $('ipStatus').textContent='Memeriksa';
+ try{
+  const r=await fetch('https://ipwho.is/'); const d=await r.json();
+  if(!d.success) throw new Error(d.message||'Layanan IP tidak tersedia');
+  currentIp=d.ip||''; $('ipAddress').textContent=currentIp||'Tidak tersedia';
+  $('ipCountry').textContent=[d.country,d.country_code].filter(Boolean).join(' · ')||'—';
+  $('ipRegion').textContent=[d.city,d.region].filter(Boolean).join(', ')||'—';
+  $('ipIsp').textContent=d.connection?.isp||d.connection?.org||'—';
+  $('ipTimezone').textContent=d.timezone?.id||'—'; $('ipMessage').textContent='Data IP publik berhasil dimuat.';
+  $('ipStatus').textContent='Berhasil'; $('sumIp').textContent='Berhasil diperiksa';
+ }catch(e){$('ipStatus').textContent='Gagal';$('ipMessage').textContent='Tidak dapat memeriksa IP: '+e.message}
+ finally{b.disabled=false;b.textContent='Periksa IP Saya'}
+});
+$('copyIp').addEventListener('click',async()=>{if(!currentIp){$('ipMessage').textContent='Periksa IP terlebih dahulu.';return}try{await navigator.clipboard.writeText(currentIp);$('ipMessage').textContent='IP berhasil disalin.'}catch{$('ipMessage').textContent='Tidak dapat menyalin otomatis; IP: '+currentIp}});
+$('testProxy').addEventListener('click',async()=>{
+ const b=$('testProxy'); b.disabled=true;b.textContent='Menguji…';$('proxyStatus').textContent='Menghubungkan';$('proxyResult').textContent='Menghubungi endpoint backend…';
+ try{const r=await fetch('/api/proxy-check');const d=await r.json();if(!r.ok)throw new Error(d.error||'Tes gagal');
+ $('proxyStatus').textContent='Terhubung';$('sumProxy').textContent='Tes berhasil';
+ $('proxyResult').textContent='Koneksi proxy berhasil.\nIP melalui proxy: '+(d.ip||'—')+'\nNegara: '+(d.country||'—')+'\nKota: '+(d.city||'—')+'\nCatatan: ini hanya tes koneksi, bukan statistik saldo/traffic akun.';
+ }catch(e){$('proxyStatus').textContent='Belum siap';$('sumProxy').textContent='Perlu konfigurasi';$('proxyResult').textContent='Tes belum berhasil: '+e.message+'\nPastikan deployment di Vercel dan environment variables sudah diisi.'}
+ finally{b.disabled=false;b.textContent='Tes Koneksi Proxy'}
+});
+</script></body></html>
